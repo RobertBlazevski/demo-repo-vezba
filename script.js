@@ -40,18 +40,15 @@ searchBtn.addEventListener("click", async function () {
   }
 });
 
-//Za ovaj button codov ne mi rabotit neznam zosto probav sekako
 countiresUsingEuro.addEventListener("click", async function () {
   try {
     resultsContainer.innerHTML = "";
     let res = await fetch(`https://restcountries.com/v3.1/all`);
     let data = await res.json();
 
-    // Iterate over each country
     data.forEach((country) => {
-      // Check if currencies is an object and has a property 'EUR'
       if (typeof country.currencies === "object" && country.currencies.EUR) {
-        createCard(country); // Create card for the country
+        createCard(country); 
       }
     });
   } catch (error) {
