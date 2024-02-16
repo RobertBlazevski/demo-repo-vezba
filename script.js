@@ -2,6 +2,7 @@ let resultsContainer = document.getElementById("results-div");
 let resetBtn = document.getElementById("resetBtn");
 let searchBtn = document.getElementById("searchBtn");
 let input = document.getElementById("CountrieName");
+let countiresUsingEuro = document.getElementById("countiresUsingEuro");
 
 fetch("https://restcountries.com/v3.1/all")
   .then((response) => response.json())
@@ -19,6 +20,9 @@ function createCard(data) {
       <div class="inCard">
         <img src="${data.flags.png}" />
         <h2>${data.name.common}</h2>
+        <h3> Population: ${data.population}</h3>
+        <h3> Capital: ${data.capital}</h3>
+        <h3> Area: ${data.area}</h3>
       </div>
     </div>`;
 }
@@ -30,6 +34,26 @@ searchBtn.addEventListener("click", async function () {
     let res = await fetch(`https://restcountries.com/v3.1/name/${inputValue}`);
     let data = await res.json();
     data.forEach((element) => createCard(element));
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+//Za ovaj button codov ne mi rabotit neznam zosto probav sekako
+countiresUsingEuro.addEventListener("click", async function () {
+  try {
+    resultsContainer.innerHTML = ""; 
+    let res = await fetch(`https://restcountries.com/v3.1/all`);
+    let data = await res.json();
+
+    
+    let euroCountries = data.filter(country => {
+      return country.currencies.EUR; 
+    });
+
+    euroCountries.forEach(country => createCard(country));
+
   } catch (error) {
     console.log(error);
   }
